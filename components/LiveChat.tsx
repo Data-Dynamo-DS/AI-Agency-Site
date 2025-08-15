@@ -10,7 +10,7 @@ const LiveChat = () => {
   const [messages, setMessages] = useState([
     {
       id: 1,
-      text: "Hi! I'm your AI assistant. How can I help you today?",
+      text: "Hi! I'm your AI assistant. I can help you understand how our AI automation services can transform your business operations and drive significant ROI. What would you like to know?",
       isAI: true,
       timestamp: new Date()
     }
@@ -20,10 +20,10 @@ const LiveChat = () => {
 
   const quickReplies = [
     "Tell me about your services",
-    "How much does it cost?",
-    "What's the implementation time?",
-    "Can you show me a demo?",
-    "I have a specific question"
+    "What's the typical ROI?",
+    "How long does implementation take?",
+    "Can you help with my specific needs?",
+    "I want to schedule a consultation"
   ]
 
   const handleSendMessage = () => {
@@ -57,15 +57,17 @@ const LiveChat = () => {
     const lowerMessage = userMessage.toLowerCase()
     
     if (lowerMessage.includes('service') || lowerMessage.includes('offer')) {
-      return "We offer AI Agent Creation, AI Video Generation, Digital Agent Replicas, and Data Analytics & Automation. Each service is customized to your business needs. Would you like me to explain any specific service in detail?"
-    } else if (lowerMessage.includes('cost') || lowerMessage.includes('price') || lowerMessage.includes('how much')) {
-      return "Our pricing varies based on the scope and complexity of your AI solution. Entry-level automation starts around $25K, while comprehensive systems range from $100K to $500K+. We offer flexible payment plans and can work within your budget. Would you like a personalized quote?"
+      return "We offer AI Agent Creation, Digital Agent Replicas, and Data Analytics & Automation. Each service is customized to your business needs and typically delivers 3-5x ROI within 6 months. The best way to understand which services fit your needs is through a consultation call. Would you like to schedule one?"
+    } else if (lowerMessage.includes('roi') || lowerMessage.includes('return')) {
+      return "Our clients typically see 3-5x ROI within 6 months. One client achieved 400% ROI in just 4 months by automating their sales process. The key is our customized approach - we analyze your specific operations and implement targeted AI solutions. Would you like to schedule a consultation to discuss your potential ROI?"
     } else if (lowerMessage.includes('time') || lowerMessage.includes('implement') || lowerMessage.includes('how long')) {
-      return "Implementation timelines depend on complexity. Simple automation takes 2-4 weeks, while comprehensive AI systems typically take 8-12 weeks. We provide detailed project timelines during discovery and keep you updated throughout the process."
-    } else if (lowerMessage.includes('demo') || lowerMessage.includes('show')) {
-      return "Absolutely! We'd love to show you our AI solutions in action. We can schedule a personalized demo where we'll walk through relevant case studies and show how our systems work. When would be a good time for you?"
+      return "Implementation typically takes 4-8 weeks for initial automation, with full system deployment in 12-16 weeks. We use a phased approach so you start seeing benefits quickly. Our fastest client went live in 3 weeks and saw immediate efficiency gains. Let's discuss your timeline in a consultation call."
+    } else if (lowerMessage.includes('help') || lowerMessage.includes('specific')) {
+      return "Absolutely! Every business has unique challenges. We start with a comprehensive analysis of your current processes, identify automation opportunities, and create a customized implementation plan. Our consultation calls are free and typically reveal 3-5 immediate automation opportunities. Shall we schedule one?"
+    } else if (lowerMessage.includes('consultation') || lowerMessage.includes('schedule')) {
+      return "Perfect! I'll connect you with our AI solutions team. They'll schedule a 30-minute discovery call where we'll analyze your business processes, discuss potential ROI, and create a customized automation roadmap. What's the best time for you this week?"
     } else {
-      return "That's a great question! I'd be happy to help you with that. Could you provide a bit more context so I can give you the most accurate and helpful response? Alternatively, you can schedule a call with one of our AI experts for a more detailed discussion."
+      return "That's a great question! Our AI solutions are designed to be customized for each business. The best way to get specific answers for your situation is through a consultation call with our AI experts. They'll analyze your processes and provide a detailed implementation plan. Would you like to schedule a free 30-minute discovery call?"
     }
   }
 
@@ -88,7 +90,7 @@ const LiveChat = () => {
         initial={{ opacity: 0, scale: 0.8 }}
         animate={{ opacity: 1, scale: 1 }}
         transition={{ duration: 0.3 }}
-        className="fixed bottom-8 left-8 w-16 h-16 bg-gradient-to-r from-primary-500 to-secondary-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-50"
+        className="fixed bottom-8 left-8 w-16 h-16 bg-gradient-to-r from-blue-600 to-blue-500 rounded-full flex items-center justify-center shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-110 z-50 glow-blue"
         aria-label="Open chat"
       >
         <MessageCircle className="w-8 h-8 text-white" />
@@ -102,10 +104,10 @@ const LiveChat = () => {
             animate={{ opacity: 1, scale: 1, y: 0 }}
             exit={{ opacity: 0, scale: 0.8, y: 20 }}
             transition={{ duration: 0.3 }}
-            className="fixed bottom-8 left-8 w-96 h-[500px] bg-white rounded-2xl shadow-2xl border border-gray-200 z-50 overflow-hidden"
+            className="fixed bottom-8 left-8 w-96 h-[500px] bg-gray-900/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-800 z-50 overflow-hidden glow-border"
           >
             {/* Chat Header */}
-            <div className="bg-gradient-to-r from-primary-600 to-secondary-600 p-4 text-white">
+            <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-4 text-white">
               <div className="flex items-center justify-between">
                 <div className="flex items-center space-x-3">
                   <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
@@ -113,7 +115,7 @@ const LiveChat = () => {
                   </div>
                   <div>
                     <h3 className="font-semibold">AI Assistant</h3>
-                    <p className="text-xs text-primary-100">Online • Ready to help</p>
+                    <p className="text-xs text-blue-100">Online • Ready to help</p>
                   </div>
                 </div>
                 <div className="flex items-center space-x-2">
@@ -147,8 +149,8 @@ const LiveChat = () => {
                     >
                       <div className={`max-w-xs px-3 py-2 rounded-lg text-sm ${
                         message.isAI
-                          ? 'bg-gray-100 text-gray-800'
-                          : 'bg-primary-600 text-white'
+                          ? 'bg-gray-800 text-gray-200 border border-gray-700'
+                          : 'bg-blue-600 text-white'
                       }`}>
                         {message.text}
                       </div>
@@ -162,11 +164,11 @@ const LiveChat = () => {
                       animate={{ opacity: 1 }}
                       className="flex justify-start"
                     >
-                      <div className="bg-gray-100 px-3 py-2 rounded-lg">
+                      <div className="bg-gray-800 px-3 py-2 rounded-lg border border-gray-700">
                         <div className="flex space-x-1">
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce"></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                          <div className="w-2 h-2 bg-gray-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce"></div>
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                          <div className="w-2 h-2 bg-blue-400 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                         </div>
                       </div>
                     </motion.div>
@@ -180,7 +182,7 @@ const LiveChat = () => {
                       <button
                         key={index}
                         onClick={() => handleQuickReply(reply)}
-                        className="px-3 py-1 text-xs bg-gray-100 hover:bg-primary-100 text-gray-700 hover:text-primary-700 rounded-full transition-colors"
+                        className="px-3 py-1 text-xs bg-gray-800 hover:bg-blue-600/20 text-gray-300 hover:text-blue-400 rounded-full transition-colors border border-gray-700 hover:border-blue-500/50"
                       >
                         {reply}
                       </button>
@@ -189,7 +191,7 @@ const LiveChat = () => {
                 </div>
 
                 {/* Input Area */}
-                <div className="border-t border-gray-200 p-4">
+                <div className="border-t border-gray-800 p-4">
                   <div className="flex space-x-2">
                     <input
                       type="text"
@@ -197,12 +199,12 @@ const LiveChat = () => {
                       onChange={(e) => setInputValue(e.target.value)}
                       onKeyPress={handleKeyPress}
                       placeholder="Type your message..."
-                      className="flex-1 px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-500 focus:border-transparent"
+                      className="flex-1 px-3 py-2 bg-gray-800 border border-gray-700 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent text-white placeholder-gray-400"
                     />
                     <button
                       onClick={handleSendMessage}
                       disabled={!inputValue.trim()}
-                      className="px-4 py-2 bg-primary-600 text-white rounded-lg hover:bg-primary-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                      className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                       <Send className="w-4 h-4" />
                     </button>

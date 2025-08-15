@@ -171,248 +171,211 @@ const AIAssessmentTool = ({ isOpen, onClose }: AIAssessmentToolProps) => {
   if (!isOpen) return null
 
   return (
-    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <motion.div
-        initial={{ opacity: 0, scale: 0.9 }}
-        animate={{ opacity: 1, scale: 1 }}
-        exit={{ opacity: 0, scale: 0.9 }}
-        className="bg-white rounded-2xl shadow-2xl max-w-2xl w-full max-h-[90vh] overflow-hidden"
-      >
-        {/* Header */}
-        <div className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white p-6">
-          <div className="flex justify-between items-center">
-            <h2 className="text-2xl font-bold">AI Readiness Assessment</h2>
-            <button
-              onClick={onClose}
-              className="text-white/80 hover:text-white transition-colors"
-            >
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-          <p className="text-primary-100 mt-2">
-            Discover how AI can transform your business in just 5 questions
-          </p>
-        </div>
-
-        {/* Progress Bar */}
-        <div className="px-6 pt-4">
-          <div className="w-full bg-gray-200 rounded-full h-2">
-            <motion.div
-              className="bg-gradient-to-r from-primary-500 to-secondary-500 h-2 rounded-full"
-              initial={{ width: 0 }}
-              animate={{ width: `${progress}%` }}
-              transition={{ duration: 0.5 }}
-            />
-          </div>
-          <p className="text-sm text-gray-600 mt-2 text-center">
-            Question {currentStep + 1} of {questions.length}
-          </p>
-        </div>
-
-        {/* Content */}
-        <div className="p-6">
-          <AnimatePresence mode="wait">
-            {!showResults ? (
-              <motion.div
-                key={currentStep}
-                initial={{ opacity: 0, x: 20 }}
-                animate={{ opacity: 1, x: 0 }}
-                exit={{ opacity: 0, x: -20 }}
-                transition={{ duration: 0.3 }}
-                className="space-y-6"
-              >
-                {/* Question */}
-                <div>
-                  <h3 className="text-xl font-semibold text-gray-900 mb-4">
-                    {questions[currentStep].text}
-                  </h3>
-                  
-                  {/* Options */}
-                  <div className="space-y-3">
-                    {questions[currentStep].options.map((option) => (
-                      <motion.button
-                        key={option.value}
-                        onClick={() => handleAnswer(questions[currentStep].id, option.value)}
-                        className={`w-full p-4 text-left rounded-lg border-2 transition-all duration-200 ${
-                          answers[questions[currentStep].id] === option.value
-                            ? 'border-primary-500 bg-primary-50 text-primary-700'
-                            : 'border-gray-200 hover:border-primary-300 hover:bg-gray-50'
-                        }`}
-                        whileHover={{ scale: 1.02 }}
-                        whileTap={{ scale: 0.98 }}
-                      >
-                        <div className="font-medium">{option.label}</div>
-                        <div className="text-sm text-gray-600 mt-1">{option.description}</div>
-                      </motion.button>
-                    ))}
+    <AnimatePresence>
+      {isOpen && (
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 flex items-center justify-center p-4"
+        >
+          <motion.div
+            initial={{ scale: 0.8, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            exit={{ scale: 0.8, opacity: 0 }}
+            transition={{ type: "spring", damping: 25, stiffness: 300 }}
+            className="bg-gray-900/95 backdrop-blur-md rounded-2xl shadow-2xl border border-gray-800 max-w-4xl w-full max-h-[90vh] overflow-hidden glow-border"
+          >
+            {/* Header */}
+            <div className="bg-gradient-to-r from-blue-600 to-blue-500 p-6 text-white">
+              <div className="flex items-center justify-between">
+                <div className="flex items-center space-x-3">
+                  <Brain className="w-8 h-8" />
+                  <div>
+                    <h2 className="text-2xl font-bold">AI Readiness Assessment</h2>
+                    <p className="text-blue-100">Discover how AI can transform your business</p>
                   </div>
                 </div>
+                <button
+                  onClick={onClose}
+                  className="p-2 hover:bg-white/20 rounded-lg transition-colors"
+                >
+                  <X className="w-6 h-6" />
+                </button>
+              </div>
+            </div>
 
-                {/* Navigation */}
-                <div className="flex justify-between pt-4">
-                  <button
-                    onClick={handlePrevious}
-                    disabled={currentStep === 0}
-                    className="flex items-center space-x-2 px-4 py-2 text-gray-600 hover:text-gray-800 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
-                  >
-                    <ChevronLeft className="w-4 h-4" />
-                    Previous
-                  </button>
-                  
-                  <button
-                    onClick={handleNext}
-                    disabled={!answers[questions[currentStep].id]}
-                    className="btn-primary disabled:opacity-50 disabled:cursor-not-allowed"
-                  >
-                    {currentStep === questions.length - 1 ? 'Get Results' : 'Next'}
-                    <ChevronRight className="w-4 h-4 ml-2" />
-                  </button>
-                </div>
-              </motion.div>
-            ) : (
-              <motion.div
-                initial={{ opacity: 0, y: 20 }}
-                animate={{ opacity: 1, y: 0 }}
-                className="space-y-6"
-              >
-                {/* Results Header */}
-                <div className="text-center">
+            {/* Content */}
+            <div className="p-6 overflow-y-auto max-h-[calc(90vh-120px)]">
+              {!showResults ? (
+                <div className="space-y-6">
+                  {/* Progress Bar */}
+                  <div className="mb-8">
+                    <div className="flex justify-between text-sm text-gray-300 mb-2">
+                      <span>Question {currentStep + 1} of {questions.length}</span>
+                      <span>{Math.round(((currentStep + 1) / questions.length) * 100)}% Complete</span>
+                    </div>
+                    <div className="w-full bg-gray-800 rounded-full h-2">
+                      <motion.div
+                        className="bg-gradient-to-r from-blue-600 to-blue-500 h-2 rounded-full"
+                        initial={{ width: 0 }}
+                        animate={{ width: `${((currentStep + 1) / questions.length) * 100}%` }}
+                        transition={{ duration: 0.5 }}
+                      />
+                    </div>
+                  </div>
+
+                  {/* Question */}
                   <motion.div
-                    initial={{ scale: 0 }}
-                    animate={{ scale: 1 }}
-                    transition={{ delay: 0.2, type: "spring" }}
-                    className="w-20 h-20 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-full flex items-center justify-center mx-auto mb-4"
+                    key={questions[currentStep].id}
+                    initial={{ opacity: 0, x: 20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    exit={{ opacity: 0, x: -20 }}
+                    className="space-y-6"
                   >
-                    <CheckCircle className="w-10 h-10 text-white" />
+                    <h3 className="text-2xl font-bold text-white text-shadow">
+                      {questions[currentStep].text}
+                    </h3>
+
+                    {/* Options */}
+                    <div className="grid gap-4">
+                      {questions[currentStep].options.map((option, index) => (
+                        <motion.button
+                          key={option.value}
+                          initial={{ opacity: 0, y: 20 }}
+                          animate={{ opacity: 1, y: 0 }}
+                          transition={{ delay: index * 0.1 }}
+                          onClick={() => handleAnswer(option.value)}
+                          className={`p-4 rounded-xl border-2 transition-all duration-300 text-left hover:scale-105 ${
+                            answers[questions[currentStep].id] === option.value
+                              ? 'border-blue-500 bg-blue-600/20 shadow-lg shadow-blue-500/25'
+                              : 'border-gray-700 bg-gray-800/50 hover:border-blue-500/50 hover:bg-gray-800'
+                          }`}
+                        >
+                          <div className="flex items-center justify-between">
+                            <div className="flex-1">
+                              <div className="font-semibold text-white mb-1">{option.label}</div>
+                              <div className="text-gray-300 text-sm">{option.description}</div>
+                            </div>
+                            {answers[questions[currentStep].id] === option.value && (
+                              <CheckCircle className="w-6 h-6 text-blue-400" />
+                            )}
+                          </div>
+                        </motion.button>
+                      ))}
+                    </div>
                   </motion.div>
-                  <h3 className="text-2xl font-bold text-gray-900 mb-2">
-                    Your AI Assessment Results
-                  </h3>
-                  <p className="text-gray-600">
-                    Based on your answers, here's how AI can transform your business
-                  </p>
-                </div>
 
-                {/* Results Content */}
-                {results && (
-                  <div className="space-y-6">
-                    {/* Score */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.3 }}
-                      className="bg-gradient-to-r from-primary-50 to-secondary-50 p-6 rounded-xl border border-primary-200"
+                  {/* Navigation */}
+                  <div className="flex justify-between pt-6">
+                    <button
+                      onClick={handlePrevious}
+                      disabled={currentStep === 0}
+                      className="flex items-center space-x-2 px-4 py-2 text-gray-300 hover:text-white disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                      <div className="text-center">
-                        <div className="text-3xl font-bold text-primary-600 mb-2">
-                          AI Readiness Score: {Math.round((results.score / 5) * 100)}%
-                        </div>
-                        <p className="text-gray-600">
-                          Your business is well-positioned for AI transformation
-                        </p>
-                      </div>
-                    </motion.div>
+                      <ChevronLeft className="w-5 h-5" />
+                      <span>Previous</span>
+                    </button>
 
-                    {/* Recommendations */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.4 }}
-                      className="space-y-4"
+                    <button
+                      onClick={handleNext}
+                      disabled={!answers[questions[currentStep].id]}
+                      className="flex items-center space-x-2 px-6 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
-                      <h4 className="text-lg font-semibold text-gray-900 flex items-center">
-                        <Brain className="w-5 h-5 text-primary-600 mr-2" />
-                        Recommended Solutions
-                      </h4>
-                      <div className="space-y-3">
-                        {results.recommendations.map((rec, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, x: -20 }}
-                            animate={{ opacity: 1, x: 0 }}
-                            transition={{ delay: 0.5 + index * 0.1 }}
-                            className="flex items-start space-x-3 p-3 bg-gray-50 rounded-lg"
-                          >
-                            <div className="w-2 h-2 bg-primary-500 rounded-full mt-2 flex-shrink-0"></div>
-                            <span className="text-gray-700">{rec}</span>
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-
-                    {/* Services */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.6 }}
-                      className="space-y-4"
-                    >
-                      <h4 className="text-lg font-semibold text-gray-900 flex items-center">
-                        <Zap className="w-5 h-5 text-primary-600 mr-2" />
-                        Services to Consider
-                      </h4>
-                      <div className="grid grid-cols-2 gap-3">
-                        {results.services.map((service, index) => (
-                          <motion.div
-                            key={index}
-                            initial={{ opacity: 0, scale: 0.8 }}
-                            animate={{ opacity: 1, scale: 1 }}
-                            transition={{ delay: 0.7 + index * 0.1 }}
-                            className="bg-white border border-gray-200 rounded-lg p-3 text-center text-sm font-medium text-gray-700 hover:border-primary-300 transition-colors"
-                          >
-                            {service}
-                          </motion.div>
-                        ))}
-                      </div>
-                    </motion.div>
-
-                    {/* ROI & Timeline */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.8 }}
-                      className="grid grid-cols-2 gap-4"
-                    >
-                      <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-                        <Target className="w-8 h-8 text-primary-600 mx-auto mb-2" />
-                        <div className="text-sm text-gray-600">Estimated ROI</div>
-                        <div className="font-semibold text-gray-900">{results.estimatedROI}</div>
-                      </div>
-                      <div className="bg-white border border-gray-200 rounded-lg p-4 text-center">
-                        <TrendingUp className="w-8 h-8 text-primary-600 mx-auto mb-2" />
-                        <div className="text-sm text-gray-600">Timeline</div>
-                        <div className="font-semibold text-gray-900">{results.timeline}</div>
-                      </div>
-                    </motion.div>
-
-                    {/* Action Buttons */}
-                    <motion.div
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      transition={{ delay: 0.9 }}
-                      className="flex flex-col sm:flex-row gap-3 pt-4"
-                    >
-                      <button className="btn-primary flex-1">
-                        Schedule Consultation
-                      </button>
-                      <button className="btn-outline flex-1">
-                        Download Report
-                      </button>
-                      <button
-                        onClick={handleRestart}
-                        className="px-6 py-3 text-gray-600 hover:text-gray-800 transition-colors"
-                      >
-                        Take Assessment Again
-                      </button>
-                    </motion.div>
+                      <span>{currentStep === questions.length - 1 ? 'Get Results' : 'Next'}</span>
+                      <ChevronRight className="w-5 h-5" />
+                    </button>
                   </div>
-                )}
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </motion.div>
-    </div>
+                </div>
+              ) : (
+                /* Results */
+                <motion.div
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={{ opacity: 1, y: 0 }}
+                  className="space-y-8"
+                >
+                  <div className="text-center">
+                    <div className="w-20 h-20 bg-gradient-to-br from-blue-600 to-blue-500 rounded-full flex items-center justify-center mx-auto mb-4 glow-blue">
+                      <Brain className="w-10 h-10 text-white" />
+                    </div>
+                    <h3 className="text-3xl font-bold text-white mb-2 text-shadow">Your AI Readiness Score</h3>
+                    <div className="text-6xl font-bold text-gradient mb-4">{results?.score}/100</div>
+                    <p className="text-gray-300 text-lg">
+                      Based on your responses, here's how AI can transform your business
+                    </p>
+                  </div>
+
+                  {/* Recommendations Grid */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="tech-card p-6">
+                      <h4 className="text-xl font-bold text-white mb-4 flex items-center">
+                        <Zap className="w-5 h-5 text-blue-400 mr-2" />
+                        Key Recommendations
+                      </h4>
+                      <ul className="space-y-2">
+                        {results?.recommendations.map((rec, index) => (
+                          <li key={index} className="flex items-start space-x-2 text-gray-300">
+                            <div className="w-2 h-2 bg-blue-500 rounded-full mt-2 flex-shrink-0"></div>
+                            <span className="text-sm">{rec}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+
+                    <div className="tech-card p-6">
+                      <h4 className="text-xl font-bold text-white mb-4 flex items-center">
+                        <Target className="w-5 h-5 text-blue-400 mr-2" />
+                        Recommended Services
+                      </h4>
+                      <ul className="space-y-2">
+                        {results?.services.map((service, index) => (
+                          <li key={index} className="flex items-start space-x-2 text-gray-300">
+                            <div className="w-2 h-2 bg-blue-400 rounded-full mt-2 flex-shrink-0"></div>
+                            <span className="text-sm">{service}</span>
+                          </li>
+                        ))}
+                      </ul>
+                    </div>
+                  </div>
+
+                  {/* ROI and Timeline */}
+                  <div className="grid md:grid-cols-2 gap-6">
+                    <div className="tech-card p-6 text-center">
+                      <TrendingUp className="w-12 h-12 text-blue-400 mx-auto mb-3" />
+                      <h4 className="text-lg font-bold text-white mb-2">Estimated ROI</h4>
+                      <p className="text-2xl font-bold text-green-400">{results?.estimatedROI}</p>
+                    </div>
+                    <div className="tech-card p-6 text-center">
+                      <Target className="w-12 h-12 text-blue-400 mx-auto mb-3" />
+                      <h4 className="text-lg font-bold text-white mb-2">Implementation Timeline</h4>
+                      <p className="text-2xl font-bold text-blue-400">{results?.timeline}</p>
+                    </div>
+                  </div>
+
+                  {/* CTA */}
+                  <div className="text-center pt-6">
+                    <button className="btn-primary mr-4">
+                      Schedule Consultation
+                    </button>
+                    <button
+                      onClick={() => {
+                        setShowResults(false)
+                        setCurrentStep(0)
+                        setAnswers({})
+                        setResults(null)
+                      }}
+                      className="btn-outline"
+                    >
+                      Take Assessment Again
+                    </button>
+                  </div>
+                </motion.div>
+              )}
+            </div>
+          </motion.div>
+        </motion.div>
+      )}
+    </AnimatePresence>
   )
 }
 

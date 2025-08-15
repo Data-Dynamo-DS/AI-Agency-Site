@@ -170,8 +170,11 @@ const CaseStudies = () => {
   }, [activeCase])
 
   return (
-    <section id="case-studies" className="py-20 bg-gradient-to-br from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="case-studies" className="py-20 bg-gray-950 relative">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 network-pattern opacity-20"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -180,12 +183,12 @@ const CaseStudies = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-shadow">
             Real-World <span className="text-gradient">Success Stories</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
-            Discover how our AI solutions have transformed businesses across industries, 
-            delivering measurable ROI and operational excellence.
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
+            See how our AI solutions have transformed businesses across industries, 
+            delivering measurable results and driving growth.
           </p>
         </motion.div>
 
@@ -195,26 +198,23 @@ const CaseStudies = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
+          className="flex justify-center mb-12"
         >
-          {caseStudies.map((study, index) => (
-            <button
-              key={study.id}
-              onClick={() => setActiveCase(index)}
-              className={`px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
-                activeCase === index
-                  ? 'bg-primary-600 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-primary-50 border border-gray-200'
-              }`}
-            >
-              <div className="flex items-center space-x-2">
-                <div className="w-8 h-8 bg-white/20 rounded-full flex items-center justify-center">
-                  <span className="text-sm font-bold">{study.company.charAt(0)}</span>
-                </div>
-                <span>{study.company}</span>
-              </div>
-            </button>
-          ))}
+          <div className="flex space-x-2 bg-gray-800/50 p-2 rounded-xl backdrop-blur-sm border border-gray-700">
+            {caseStudies.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveCase(index)}
+                className={`px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300 ${
+                  activeCase === index
+                    ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
+                    : 'text-gray-300 hover:text-white hover:bg-gray-700/50'
+                }`}
+              >
+                Case {index + 1}
+              </button>
+            ))}
+          </div>
         </motion.div>
 
         {/* Active Case Study */}
@@ -222,159 +222,106 @@ const CaseStudies = () => {
           key={activeCase}
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
           className="grid lg:grid-cols-2 gap-12 items-start mb-16"
         >
-          {/* Case Study Content */}
+          {/* Left Content */}
           <div className="space-y-6">
-            <div className="flex items-center space-x-4 mb-6">
-              <div className="w-20 h-20 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center">
-                <span className="text-2xl font-bold text-white">
-                  {caseStudies[activeCase].company.charAt(0)}
-                </span>
+            {/* Company Info */}
+            <div className="flex items-center space-x-4">
+              <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-500 rounded-xl flex items-center justify-center glow-blue">
+                <Users className="w-8 h-8 text-white" />
               </div>
               <div>
-                <h3 className="text-2xl font-bold text-gray-900">{caseStudies[activeCase].company}</h3>
-                <p className="text-gray-600">{caseStudies[activeCase].industry} Industry</p>
+                <h3 className="text-2xl font-bold text-white">{caseStudies[activeCase].company}</h3>
+                <p className="text-blue-400 font-medium">{caseStudies[activeCase].industry}</p>
               </div>
             </div>
 
+            {/* Challenge */}
             <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                <Target className="w-5 h-5 text-primary-600 mr-2" />
+              <h4 className="text-lg font-semibold text-white mb-3 flex items-center">
+                <Target className="w-5 h-5 text-red-400 mr-2" />
                 The Challenge
               </h4>
-              <p className="text-gray-700 leading-relaxed">{caseStudies[activeCase].challenge}</p>
+              <p className="text-gray-300 leading-relaxed">{caseStudies[activeCase].challenge}</p>
             </div>
 
+            {/* Solution */}
             <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-3 flex items-center">
-                <Zap className="w-5 h-5 text-primary-600 mr-2" />
+              <h4 className="text-lg font-semibold text-white mb-3 flex items-center">
+                <Zap className="w-5 h-5 text-blue-400 mr-2" />
                 Our Solution
               </h4>
-              <p className="text-gray-700 leading-relaxed">{caseStudies[activeCase].solution}</p>
-            </div>
-
-            {/* Results Grid */}
-            <div>
-              <h4 className="text-lg font-semibold text-gray-900 mb-4 flex items-center">
-                <TrendingUp className="w-5 h-5 text-primary-600 mr-2" />
-                Results & Impact
-              </h4>
-              <div className="grid grid-cols-1 gap-4">
-                {caseStudies[activeCase].results.map((result, index) => (
-                  <motion.div
-                    key={index}
-                    initial={{ opacity: 0, x: -20 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    transition={{ delay: index * 0.1 }}
-                    className="bg-white p-4 rounded-lg border border-gray-200 shadow-sm"
-                  >
-                    <div className="flex items-center justify-between">
-                      <div>
-                        <div className="text-sm text-gray-600">{result.metric}</div>
-                        <div className="text-lg font-bold text-gray-900">{result.value}</div>
-                      </div>
-                      <div className="text-right">
-                        <div className="text-sm font-medium text-green-600">{result.improvement}</div>
-                      </div>
-                    </div>
-                  </motion.div>
-                ))}
-              </div>
+              <p className="text-gray-300 leading-relaxed">{caseStudies[activeCase].solution}</p>
             </div>
 
             {/* Testimonial */}
-            <div className="bg-gradient-to-r from-primary-50 to-secondary-50 rounded-xl p-6 border border-primary-200">
-              <div className="flex items-start space-x-3">
-                <div className="w-10 h-10 bg-primary-600 rounded-full flex items-center justify-center text-white font-bold">
-                  {caseStudies[activeCase].author.charAt(0)}
+            <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700 glow-border">
+              <p className="text-gray-200 italic mb-4">"{caseStudies[activeCase].testimonial}"</p>
+              <div className="flex items-center space-x-3">
+                <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-500 rounded-full flex items-center justify-center">
+                  <Users className="w-5 h-5 text-white" />
                 </div>
                 <div>
-                  <p className="text-gray-700 italic mb-2">"{caseStudies[activeCase].testimonial}"</p>
-                  <div className="text-sm">
-                    <div className="font-semibold text-gray-900">{caseStudies[activeCase].author}</div>
-                    <div className="text-gray-600">{caseStudies[activeCase].role}</div>
-                  </div>
+                  <div className="font-semibold text-white">{caseStudies[activeCase].author}</div>
+                  <div className="text-sm text-gray-400">{caseStudies[activeCase].role}</div>
                 </div>
               </div>
             </div>
           </div>
 
-          {/* Chart Visualization */}
-          <div className="bg-white rounded-2xl p-6 shadow-lg border border-gray-200">
-            <h4 className="text-lg font-semibold text-gray-900 mb-4 text-center">
-              Performance Improvement
-            </h4>
-            <div ref={chartRef} className="flex justify-center"></div>
-            <div className="text-center mt-4">
-              <p className="text-sm text-gray-600">
-                Visual representation of key metrics improvement
-              </p>
+          {/* Right Content - Chart */}
+          <div className="space-y-6">
+            <h4 className="text-xl font-bold text-white text-center">Performance Improvements</h4>
+            <div className="bg-gray-800/50 backdrop-blur-sm p-6 rounded-xl border border-gray-700 glow-border">
+              <div ref={chartRef} className="w-full h-80"></div>
+            </div>
+            
+            {/* Metrics Summary */}
+            <div className="grid grid-cols-1 gap-4">
+              {caseStudies[activeCase].results.map((result, index) => (
+                <motion.div
+                  key={result.metric}
+                  initial={{ opacity: 0, x: 20 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  transition={{ delay: index * 0.1 }}
+                  className="bg-gray-800/30 backdrop-blur-sm p-4 rounded-lg border border-gray-700"
+                >
+                  <div className="flex justify-between items-center">
+                    <div>
+                      <div className="text-sm text-gray-400">{result.metric}</div>
+                      <div className="text-lg font-semibold text-white">{result.value}</div>
+                    </div>
+                    <div className="text-right">
+                      <div className="text-sm text-green-400 font-medium">{result.improvement}</div>
+                    </div>
+                  </div>
+                </motion.div>
+              ))}
             </div>
           </div>
         </motion.div>
 
-        {/* Industry Impact Overview */}
+        {/* CTA */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="mb-16"
-        >
-          <h3 className="text-3xl font-bold text-gray-900 text-center mb-12">
-            Impact Across Industries
-          </h3>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {[
-              { icon: Users, label: "SaaS Companies", value: "85%", description: "faster customer onboarding" },
-              { icon: DollarSign, label: "E-commerce", value: "$2.1M", description: "average annual savings" },
-              { icon: Clock, label: "Healthcare", value: "60%", description: "reduction in wait times" },
-              { icon: TrendingUp, label: "Manufacturing", value: "3.2x", description: "increase in efficiency" }
-            ].map((stat, index) => (
-              <motion.div
-                key={stat.label}
-                initial={{ opacity: 0, scale: 0.8 }}
-                whileInView={{ opacity: 1, scale: 1 }}
-                viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-                className="text-center"
-              >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <stat.icon className="w-8 h-8 text-white" />
-                </div>
-                <div className="text-2xl font-bold text-primary-600 mb-2">{stat.value}</div>
-                <div className="text-sm text-gray-600 mb-1">{stat.label}</div>
-                <div className="text-xs text-gray-500">{stat.description}</div>
-              </motion.div>
-            ))}
-          </div>
-        </motion.div>
-
-        {/* CTA Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
           className="text-center"
         >
-          <div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl p-8 text-white">
-            <h3 className="text-3xl font-bold mb-4">
-              Ready to Join Our Success Stories?
+          <div className="bg-gradient-to-r from-gray-900/80 to-blue-950/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-800 glow-border">
+            <h3 className="text-2xl font-bold text-white mb-4 text-shadow">
+              Ready to Create Your Success Story?
             </h3>
-            <p className="text-xl text-primary-100 mb-6 max-w-2xl mx-auto">
-              Let's discuss how our AI solutions can transform your business operations and deliver measurable results.
+            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+              Let's discuss how our AI solutions can transform your business operations and drive similar results.
             </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-3 px-6 rounded-lg transition-colors">
-                Schedule Consultation
-              </button>
-              <button className="border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold py-3 px-6 rounded-lg transition-colors">
-                View More Case Studies
-              </button>
-            </div>
+            <button className="btn-primary">
+              Schedule a Consultation
+              <ArrowRight className="w-5 h-5 ml-2" />
+            </button>
           </div>
         </motion.div>
       </div>

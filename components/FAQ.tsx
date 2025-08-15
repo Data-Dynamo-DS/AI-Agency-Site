@@ -134,8 +134,11 @@ const FAQ = () => {
   }
 
   return (
-    <section id="faq" className="py-20 bg-gradient-to-br from-gray-50 to-white">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="faq" className="py-20 bg-gray-950 relative">
+      {/* Background Pattern */}
+      <div className="absolute inset-0 network-pattern opacity-20"></div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         {/* Header */}
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -144,12 +147,12 @@ const FAQ = () => {
           transition={{ duration: 0.6 }}
           className="text-center mb-16"
         >
-          <h2 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+          <h2 className="text-4xl md:text-5xl font-bold text-white mb-6 text-shadow">
             Frequently Asked <span className="text-gradient">Questions</span>
           </h2>
-          <p className="text-xl text-gray-600 max-w-3xl mx-auto">
+          <p className="text-xl text-gray-300 max-w-3xl mx-auto">
             Get answers to common questions about our AI solutions, implementation process, 
-            and how artificial intelligence can transform your business.
+            and how we can transform your business operations.
           </p>
         </motion.div>
 
@@ -159,20 +162,26 @@ const FAQ = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.2 }}
-          className="flex flex-wrap justify-center gap-4 mb-12"
+          className="flex flex-wrap justify-center gap-3 mb-12"
         >
-          {categories.map((category, index) => (
+          {[
+            { id: 'general', label: 'General', icon: Brain },
+            { id: 'technology', label: 'Technology', icon: Zap },
+            { id: 'implementation', label: 'Implementation', icon: Clock },
+            { id: 'roi', label: 'ROI & Cost', icon: DollarSign },
+            { id: 'security', label: 'Security', icon: Shield }
+          ].map((category) => (
             <button
               key={category.id}
               onClick={() => setActiveCategory(category.id)}
-              className={`flex items-center space-x-2 px-6 py-3 rounded-lg font-medium transition-all duration-300 ${
+              className={`flex items-center space-x-2 px-4 py-2 rounded-lg font-medium transition-all duration-300 ${
                 activeCategory === category.id
-                  ? 'bg-primary-600 text-white shadow-lg'
-                  : 'bg-white text-gray-700 hover:bg-primary-50 border border-gray-200'
+                  ? 'bg-blue-600 text-white shadow-lg shadow-blue-500/25'
+                  : 'bg-gray-800/50 text-gray-300 hover:text-white hover:bg-gray-700/50 border border-gray-700'
               }`}
             >
-              <category.icon className="w-5 h-5" />
-              <span>{category.name}</span>
+              <category.icon className="w-4 h-4" />
+              <span>{category.label}</span>
             </button>
           ))}
         </motion.div>
@@ -183,90 +192,59 @@ const FAQ = () => {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="max-w-4xl mx-auto space-y-4"
+          className="max-w-4xl mx-auto space-y-4 mb-16"
         >
-          {filteredFAQs.map((faq, index) => (
-            <motion.div
-              key={faq.id}
-              initial={{ opacity: 0, y: 20 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.4, delay: 0.5 + index * 0.1 }}
-              className="bg-white rounded-xl shadow-lg border border-gray-200 overflow-hidden"
-            >
-              {/* Question Header */}
-              <button
-                onClick={() => toggleFAQ(faq.id)}
-                className="w-full p-6 text-left hover:bg-gray-50 transition-colors"
+          {faqData
+            .filter(item => item.category === activeCategory)
+            .map((item, index) => (
+              <motion.div
+                key={item.id}
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: index * 0.1 }}
+                className="tech-card overflow-hidden"
               >
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-3">
-                    <div className="w-10 h-10 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-lg flex items-center justify-center">
-                      <faq.icon className="w-5 h-5 text-white" />
+                <button
+                  onClick={() => setActiveFAQ(activeFAQ === item.id ? null : item.id)}
+                  className="w-full p-6 text-left hover:bg-gray-800/50 transition-colors"
+                >
+                  <div className="flex items-center justify-between">
+                    <div className="flex items-center space-x-4">
+                      <div className="w-10 h-10 bg-gradient-to-br from-blue-600 to-blue-500 rounded-lg flex items-center justify-center glow-blue">
+                        <item.icon className="w-5 h-5 text-white" />
+                      </div>
+                      <h3 className="text-lg font-semibold text-white">{item.question}</h3>
                     </div>
-                    <h3 className="text-lg font-semibold text-gray-900">{faq.question}</h3>
+                    <motion.div
+                      animate={{ rotate: activeFAQ === item.id ? 180 : 0 }}
+                      transition={{ duration: 0.3 }}
+                    >
+                      {activeFAQ === item.id ? (
+                        <ChevronUp className="w-6 h-6 text-gray-400" />
+                      ) : (
+                        <ChevronDown className="w-6 h-6 text-gray-400" />
+                      )}
+                    </motion.div>
                   </div>
-                  <motion.div
-                    animate={{ rotate: activeFAQ === faq.id ? 180 : 0 }}
-                    transition={{ duration: 0.3 }}
-                  >
-                    {activeFAQ === faq.id ? (
-                      <ChevronUp className="w-6 h-6 text-gray-500" />
-                    ) : (
-                      <ChevronDown className="w-6 h-6 text-gray-500" />
-                    )}
-                  </motion.div>
-                </div>
-              </button>
+                </button>
 
-              {/* Answer */}
-              <AnimatePresence>
-                {activeFAQ === faq.id && (
-                  <motion.div
-                    initial={{ height: 0, opacity: 0 }}
-                    animate={{ height: 'auto', opacity: 1 }}
-                    exit={{ height: 0, opacity: 0 }}
-                    transition={{ duration: 0.3 }}
-                    className="border-t border-gray-200"
-                  >
-                    <div className="p-6">
-                      <p className="text-gray-700 leading-relaxed">{faq.answer}</p>
-                    </div>
-                  </motion.div>
-                )}
-              </AnimatePresence>
-            </motion.div>
-          ))}
-        </motion.div>
-
-        {/* Additional Help Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center mt-16"
-        >
-          <div className="bg-gradient-to-r from-primary-600 to-secondary-600 rounded-2xl p-8 text-white">
-            <div className="w-20 h-20 bg-white/20 rounded-full flex items-center justify-center mx-auto mb-6">
-              <HelpCircle className="w-10 h-10" />
-            </div>
-            <h3 className="text-3xl font-bold mb-4">
-              Still Have Questions?
-            </h3>
-            <p className="text-xl text-primary-100 mb-6 max-w-2xl mx-auto">
-              Our AI experts are here to help. Get in touch with us for personalized answers 
-              and detailed information about how AI can benefit your business.
-            </p>
-            <div className="flex flex-col sm:flex-row gap-4 justify-center">
-              <button className="bg-white text-primary-600 hover:bg-gray-100 font-semibold py-3 px-6 rounded-lg transition-colors">
-                Contact Our Experts
-              </button>
-              <button className="border-2 border-white text-white hover:bg-white hover:text-primary-600 font-semibold py-3 px-6 rounded-lg transition-colors">
-                Schedule a Call
-              </button>
-            </div>
-          </div>
+                <AnimatePresence>
+                  {activeFAQ === item.id && (
+                    <motion.div
+                      initial={{ height: 0, opacity: 0 }}
+                      animate={{ height: 'auto', opacity: 1 }}
+                      exit={{ height: 0, opacity: 0 }}
+                      transition={{ duration: 0.3 }}
+                      className="border-t border-gray-800"
+                    >
+                      <div className="p-6">
+                        <p className="text-gray-300 leading-relaxed">{item.answer}</p>
+                      </div>
+                    </motion.div>
+                  )}
+                </AnimatePresence>
+              </motion.div>
+            ))}
         </motion.div>
 
         {/* Quick Facts */}
@@ -274,33 +252,57 @@ const FAQ = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          transition={{ duration: 0.6, delay: 0.8 }}
-          className="mt-16"
+          transition={{ duration: 0.6, delay: 0.6 }}
+          className="mb-16"
         >
-          <h3 className="text-2xl font-bold text-gray-900 text-center mb-8">
+          <h3 className="text-2xl font-bold text-white text-center mb-12 text-shadow">
             Quick Facts About AI Implementation
           </h3>
-          <div className="grid md:grid-cols-3 gap-6">
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {[
-              { icon: Clock, fact: "Average implementation time: 8-12 weeks", description: "From discovery to deployment" },
-              { icon: DollarSign, fact: "Typical ROI timeline: 3-6 months", description: "Start seeing measurable results" },
-              { icon: Shield, fact: "100% compliance ready", description: "Built with security and regulations in mind" }
-            ].map((item, index) => (
+              { icon: Clock, label: "Implementation Time", value: "4-8 weeks", description: "to first results" },
+              { icon: DollarSign, label: "Average ROI", value: "3-5x", description: "within 6 months" },
+              { icon: Shield, label: "Security", value: "Enterprise-grade", description: "SOC 2 compliant" },
+              { icon: Zap, label: "Uptime", value: "99.9%", description: "guaranteed availability" }
+            ].map((fact, index) => (
               <motion.div
-                key={index}
+                key={fact.label}
                 initial={{ opacity: 0, scale: 0.8 }}
                 whileInView={{ opacity: 1, scale: 1 }}
                 viewport={{ once: true }}
-                transition={{ duration: 0.4, delay: 0.9 + index * 0.1 }}
+                transition={{ duration: 0.4, delay: 0.7 + index * 0.1 }}
                 className="text-center"
               >
-                <div className="w-16 h-16 bg-gradient-to-br from-primary-500 to-secondary-500 rounded-xl flex items-center justify-center mx-auto mb-4">
-                  <item.icon className="w-8 h-8 text-white" />
+                <div className="w-16 h-16 bg-gradient-to-br from-blue-600 to-blue-500 rounded-xl flex items-center justify-center mx-auto mb-4 glow-blue">
+                  <fact.icon className="w-8 h-8 text-white" />
                 </div>
-                <div className="text-lg font-bold text-gray-900 mb-2">{item.fact}</div>
-                <div className="text-sm text-gray-600">{item.description}</div>
+                <div className="text-2xl font-bold text-blue-400 mb-2 text-shadow">{fact.value}</div>
+                <div className="text-sm text-gray-300 mb-1">{fact.label}</div>
+                <div className="text-xs text-gray-400">{fact.description}</div>
               </motion.div>
             ))}
+          </div>
+        </motion.div>
+
+        {/* CTA */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6, delay: 0.8 }}
+          className="text-center"
+        >
+          <div className="bg-gradient-to-r from-gray-900/80 to-blue-950/80 backdrop-blur-sm rounded-2xl p-8 border border-gray-800 glow-border">
+            <h3 className="text-2xl font-bold text-white mb-4 text-shadow">
+              Still Have Questions?
+            </h3>
+            <p className="text-gray-300 mb-6 max-w-2xl mx-auto">
+              Our AI experts are here to help. Schedule a consultation to get personalized answers 
+              and learn how our solutions can transform your business.
+            </p>
+            <button className="btn-primary">
+              Schedule a Consultation
+            </button>
           </div>
         </motion.div>
       </div>

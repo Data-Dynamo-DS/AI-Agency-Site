@@ -7,7 +7,6 @@ import Hero from '@/components/Hero'
 import ServicesOverview from '@/components/ServicesOverview'
 import AIAssessmentTool from '@/components/AIAssessmentTool'
 import SalesMarketingAI from '@/components/SalesMarketingAI'
-import AIVideoGeneration from '@/components/AIVideoGeneration'
 import CaseStudies from '@/components/CaseStudies'
 import Industries from '@/components/Industries'
 import FAQ from '@/components/FAQ'
@@ -19,7 +18,7 @@ export default function Home() {
 
   return (
     <main className="min-h-screen">
-      <Header />
+      <Header onStartAssessment={() => setShowAssessment(true)} />
       <Hero onStartAssessment={() => setShowAssessment(true)} />
       <ServicesOverview />
       <AIAssessmentTool 
@@ -27,7 +26,6 @@ export default function Home() {
         onClose={() => setShowAssessment(false)} 
       />
       <SalesMarketingAI />
-      <AIVideoGeneration />
       <CaseStudies />
       <Industries />
       <FAQ />

@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { motion } from 'framer-motion'
-import { ArrowRight, Play, Brain, Zap, Target } from 'lucide-react'
+import { ArrowRight, Brain, Zap, Target } from 'lucide-react'
 
 interface HeroProps {
   onStartAssessment: () => void
@@ -32,8 +32,14 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
   ]
 
   return (
-    <section id="home" className="pt-20 pb-16 gradient-bg overflow-hidden">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <section id="home" className="pt-20 pb-16 gradient-bg network-pattern overflow-hidden relative">
+      {/* Background Glow Effects */}
+      <div className="absolute inset-0 overflow-hidden">
+        <div className="absolute -top-40 -right-40 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse-slow"></div>
+        <div className="absolute -bottom-40 -left-40 w-80 h-80 bg-blue-600/20 rounded-full blur-3xl animate-pulse-slow animate-delay-200"></div>
+      </div>
+      
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="grid lg:grid-cols-2 gap-12 items-center">
           {/* Left Content */}
           <motion.div
@@ -47,9 +53,9 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.2 }}
-              className="inline-flex items-center px-4 py-2 bg-primary-100 text-primary-800 rounded-full text-sm font-medium"
+              className="inline-flex items-center px-4 py-2 bg-blue-600/20 text-blue-300 rounded-full text-sm font-medium border border-blue-500/30 glow-border"
             >
-              <span className="w-2 h-2 bg-primary-600 rounded-full mr-2 animate-pulse"></span>
+              <span className="w-2 h-2 bg-blue-400 rounded-full mr-2 animate-pulse"></span>
               Leading AI Agency Since 2020
             </motion.div>
 
@@ -58,7 +64,7 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.4 }}
-              className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight"
+              className="text-4xl md:text-5xl lg:text-6xl font-bold text-white leading-tight text-shadow"
             >
               The Future of Business is{' '}
               <span className="text-gradient">AI-Powered</span>
@@ -71,7 +77,7 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.5 }}
-              className="text-xl md:text-2xl text-gray-600 min-h-[3rem] flex items-center"
+              className="text-xl md:text-2xl text-gray-300 min-h-[3rem] flex items-center"
             >
               {taglines[currentTagline]}
             </motion.div>
@@ -81,7 +87,7 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="text-lg text-gray-600 leading-relaxed"
+              className="text-lg text-gray-400 leading-relaxed"
             >
               We design and deploy intelligent automation systems that transform how businesses operate. 
               From AI agents to video generation, we create solutions that scale and deliver measurable ROI.
@@ -100,9 +106,9 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
                   initial={{ opacity: 0, scale: 0.8 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ duration: 0.4, delay: 1 + index * 0.1 }}
-                  className="flex items-center space-x-2 text-gray-700"
+                  className="flex items-center space-x-2 text-gray-300"
                 >
-                  <feature.icon className="w-5 h-5 text-primary-600" />
+                  <feature.icon className="w-5 h-5 text-blue-400" />
                   <span className="text-sm font-medium">{feature.text}</span>
                 </motion.div>
               ))}
@@ -117,14 +123,10 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
             >
               <button 
                 onClick={onStartAssessment}
-                className="btn-primary group"
+                className="btn-primary glow-blue-strong"
               >
                 Start Your Assessment
                 <ArrowRight className="w-5 h-5 ml-2 group-hover:translate-x-1 transition-transform" />
-              </button>
-              <button className="btn-outline group">
-                <Play className="w-5 h-5 mr-2 group-hover:scale-110 transition-transform" />
-                Watch Demo
               </button>
             </motion.div>
           </motion.div>
@@ -149,51 +151,28 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="w-32 h-32 mx-auto bg-gradient-to-br from-primary-500 to-secondary-600 rounded-full flex items-center justify-center shadow-2xl"
+                className="w-32 h-32 mx-auto bg-gradient-to-br from-blue-600 to-blue-500 rounded-full flex items-center justify-center shadow-2xl glow-blue-strong"
               >
                 <Brain className="w-16 h-16 text-white" />
               </motion.div>
-
-              {/* Orbiting Elements */}
-              {[0, 1, 2, 3].map((index) => (
-                <motion.div
-                  key={index}
-                  animate={{
-                    rotate: 360,
-                    scale: [1, 1.2, 1]
-                  }}
-                  transition={{
-                    duration: 8 + index * 2,
-                    repeat: Infinity,
-                    ease: "linear",
-                    delay: index * 0.5
-                  }}
-                  className="absolute top-1/2 left-1/2 w-20 h-20 -mt-10 -ml-10"
-                  style={{
-                    transformOrigin: '100px 100px'
-                  }}
-                >
-                  <div className="w-full h-full bg-gradient-to-br from-accent-400 to-accent-600 rounded-full opacity-80 shadow-lg"></div>
-                </motion.div>
-              ))}
 
               {/* Floating Cards */}
               <motion.div
                 animate={{ y: [-10, 10, -10] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut" }}
-                className="absolute -top-4 -right-4 bg-white p-4 rounded-lg shadow-lg border border-gray-200"
+                className="absolute -top-4 -right-4 bg-gray-900/80 backdrop-blur-sm p-4 rounded-lg shadow-xl border border-gray-800 glow-border"
               >
-                <div className="text-sm font-medium text-gray-700">AI Agent</div>
-                <div className="text-xs text-gray-500">Active</div>
+                <div className="text-sm font-medium text-white">AI Agent</div>
+                <div className="text-xs text-blue-400">Active</div>
               </motion.div>
 
               <motion.div
                 animate={{ y: [10, -10, 10] }}
                 transition={{ duration: 3, repeat: Infinity, ease: "easeInOut", delay: 1 }}
-                className="absolute -bottom-4 -left-4 bg-white p-4 rounded-lg shadow-lg border border-gray-200"
+                className="absolute -bottom-4 -left-4 bg-gray-900/80 backdrop-blur-sm p-4 rounded-lg shadow-xl border border-gray-800 glow-border"
               >
-                <div className="text-sm font-medium text-gray-700">Video Gen</div>
-                <div className="text-xs text-gray-500">Processing</div>
+                <div className="text-sm font-medium text-white">Video Gen</div>
+                <div className="text-xs text-blue-400">Processing</div>
               </motion.div>
             </div>
 
@@ -216,8 +195,8 @@ const Hero = ({ onStartAssessment }: HeroProps) => {
                   transition={{ duration: 0.4, delay: 1.4 + index * 0.1 }}
                   className="text-center"
                 >
-                  <div className="text-2xl font-bold text-primary-600">{stat.number}</div>
-                  <div className="text-sm text-gray-600">{stat.label}</div>
+                  <div className="text-2xl font-bold text-blue-400 text-shadow">{stat.number}</div>
+                  <div className="text-sm text-gray-400">{stat.label}</div>
                 </motion.div>
               ))}
             </motion.div>
