@@ -2,7 +2,8 @@
 const nextConfig = {
   output: 'export',
   distDir: 'docs',
-  basePath: '/AI-Agency-Site', // match your GitHub repo name here exactly
+  basePath: '/AI-Agency-Site',
+  assetPrefix: '/AI-Agency-Site/',
   images: {
     domains: ['localhost'],
   },
