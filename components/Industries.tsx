@@ -1,6 +1,7 @@
 'use client'
 
 import { useState } from 'react'
+import React from 'react'
 import { motion } from 'framer-motion'
 import { Building2, ShoppingCart, Heart, Car, GraduationCap, Factory, Plane, Globe, ArrowRight, Zap, Target, TrendingUp, Users, DollarSign, Clock } from 'lucide-react'
 
@@ -239,12 +240,12 @@ const Industries = () => {
           <div className="space-y-8">
             {/* Industry Header */}
             <div className="flex items-center space-x-4">
-              <div className={`w-16 h-16 bg-gradient-to-br ${activeIndustryData.color} rounded-xl flex items-center justify-center glow-blue`}>
-                <activeIndustryData.icon className="w-8 h-8 text-white" />
+              <div className={`w-16 h-16 bg-gradient-to-br ${activeIndustryData?.color} rounded-xl flex items-center justify-center glow-blue`}>
+              {activeIndustryData && React.createElement(activeIndustryData.icon, { className: 'w-8 h-8 text-white' })}
               </div>
               <div>
-                <h3 className="text-3xl font-bold text-white">{activeIndustryData.name}</h3>
-                <p className="text-gray-300">{activeIndustryData.description}</p>
+                <h3 className="text-3xl font-bold text-white">{activeIndustryData?.name}</h3>
+                <p className="text-gray-300">{activeIndustryData?.description}</p>
               </div>
             </div>
 
@@ -255,7 +256,7 @@ const Industries = () => {
                 Common Challenges
               </h4>
               <div className="grid gap-3">
-                {activeIndustryData.challenges.map((challenge, index) => (
+                {activeIndustryData?.challenges.map((challenge, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -277,7 +278,7 @@ const Industries = () => {
                 Our AI Solutions
               </h4>
               <div className="grid gap-3">
-                {activeIndustryData.solutions.map((solution, index) => (
+                {activeIndustryData?.solutions.map((solution, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: -20 }}
@@ -302,7 +303,7 @@ const Industries = () => {
                 Measurable Benefits
               </h4>
               <div className="grid gap-4">
-                {activeIndustryData.benefits.map((benefit, index) => (
+                {activeIndustryData?.benefits.map((benefit, index) => (
                   <motion.div
                     key={index}
                     initial={{ opacity: 0, x: 20 }}
@@ -325,7 +326,7 @@ const Industries = () => {
                 <TrendingUp className="w-5 h-5 text-blue-400 mr-2" />
                 Success Story
               </h4>
-              <p className="text-gray-300 mb-4">{activeIndustryData.caseStudy}</p>
+              <p className="text-gray-300 mb-4">{activeIndustryData?.caseStudy}</p>
               <button className="btn-outline text-sm">
                 Read Full Case Study
                 <ArrowRight className="w-4 h-4 ml-2" />

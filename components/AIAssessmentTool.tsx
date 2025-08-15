@@ -245,7 +245,7 @@ const AIAssessmentTool = ({ isOpen, onClose }: AIAssessmentToolProps) => {
                           initial={{ opacity: 0, y: 20 }}
                           animate={{ opacity: 1, y: 0 }}
                           transition={{ delay: index * 0.1 }}
-                          onClick={() => handleAnswer(option.value)}
+                          onClick={() => handleAnswer(questions[currentStep].id, option.value)}
                           className={`p-4 rounded-xl border-2 transition-all duration-300 text-left hover:scale-105 ${
                             answers[questions[currentStep].id] === option.value
                               ? 'border-blue-500 bg-blue-600/20 shadow-lg shadow-blue-500/25'
